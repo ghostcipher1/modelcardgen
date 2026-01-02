@@ -12,7 +12,7 @@ __all__ = [
 class Interpretation(BaseModel):
     """
     A human-readable interpretation of model metrics.
-    
+
     **API Stability**: Stable. Public API for metric interpretation results.
     """
 
@@ -37,7 +37,7 @@ class MetricInterpreter:
 
     Implements deterministic, documented rules without ML/LLM usage.
     Rules are organized by metric and include thresholds, logic, and explanations.
-    
+
     **API Stability**: Stable. Public API for metric interpretation.
     The interpret() and get_summary_statement() methods are guaranteed stable.
     Internal rule implementations may improve but method signatures remain compatible.

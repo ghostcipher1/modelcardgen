@@ -23,10 +23,10 @@ __all__ = [
 class ClassifierTrainer:
     """
     Convenience wrapper for training classifiers and extracting evaluation data.
-    
+
     Handles train-test split, metric computation, and preparation of
     ModelMetadata, EvaluationMetrics, and other required objects.
-    
+
     **API Stability**: Stable. Public convenience API for scikit-learn classifier training.
     The train_and_evaluate() and get_metrics() methods are guaranteed stable.
     """
@@ -48,7 +48,11 @@ class ClassifierTrainer:
         self.metrics = None
 
     def train_and_evaluate(
-        self, X_train, y_train, X_test: Optional[np.ndarray] = None, y_test: Optional[np.ndarray] = None
+        self,
+        X_train,
+        y_train,
+        X_test: Optional[np.ndarray] = None,
+        y_test: Optional[np.ndarray] = None,
     ) -> EvaluationMetrics:
         """
         Train the model and compute evaluation metrics.

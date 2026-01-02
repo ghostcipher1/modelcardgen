@@ -27,7 +27,7 @@ class MetricsParser:
     - Scikit-learn classification_report output
     - Custom metrics from JSON files or dicts
     - Confusion matrices as numpy arrays or nested lists
-    
+
     **API Stability**: Stable. Public API for metrics parsing and validation.
     All public methods (from_sklearn_report, from_json_file, from_dict, from_confusion_matrix)
     are guaranteed to remain compatible within v0.x versions.

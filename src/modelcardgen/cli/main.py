@@ -5,11 +5,15 @@ import click
 import yaml
 
 from modelcardgen import __version__
-from modelcardgen.core.models import (DatasetMetadata, EvaluationMetrics,
-                                      ModelLimitations, ModelMetadata,
-                                      RiskAssessment, UseCaseConstraints)
-from modelcardgen.core.security import (DEFAULT_MAX_YAML_SIZE,
-                                        validate_yaml_file_size)
+from modelcardgen.core.models import (
+    DatasetMetadata,
+    EvaluationMetrics,
+    ModelLimitations,
+    ModelMetadata,
+    RiskAssessment,
+    UseCaseConstraints,
+)
+from modelcardgen.core.security import DEFAULT_MAX_YAML_SIZE, validate_yaml_file_size
 from modelcardgen.reports.markdown import MarkdownCardGenerator
 from modelcardgen.reports.risk import RiskReportGenerator
 

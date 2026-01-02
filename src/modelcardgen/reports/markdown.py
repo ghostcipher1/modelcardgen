@@ -25,7 +25,7 @@ class MarkdownCardGenerator:
 
     Renders ModelMetadata, DatasetMetadata, EvaluationMetrics, and other model
     information into a comprehensive MODEL_CARD.md file using Jinja2 templates.
-    
+
     **API Stability**: Stable. Public API for model card generation.
     The generate() and generate_from_model_card() methods are guaranteed stable.
     Output format may be enhanced but will remain backward compatible.
@@ -67,7 +67,7 @@ class MarkdownCardGenerator:
 
         Returns:
             Path to the generated model card file.
-            
+
         Raises:
             TemplateError: If template rendering fails.
             IOError: If output file cannot be written.
@@ -102,15 +102,11 @@ class MarkdownCardGenerator:
             output_path.write_text(content, encoding="utf-8")
 
             return output_path
-        
+
         except TemplateError as e:
-            raise TemplateError(
-                f"Failed to render model card template:\n  {str(e)}"
-            )
+            raise TemplateError(f"Failed to render model card template:\n  {str(e)}")
         except IOError as e:
-            raise IOError(
-                f"Failed to write model card to {output_path}:\n  {str(e)}"
-            )
+            raise IOError(f"Failed to write model card to {output_path}:\n  {str(e)}")
         except Exception as e:
             raise RuntimeError(
                 f"Unexpected error during model card generation:\n  {str(e)}"

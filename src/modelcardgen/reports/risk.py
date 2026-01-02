@@ -19,7 +19,7 @@ class RiskReportGenerator:
     The report is conservative in scope and suitable for audit, compliance,
     and operational risk management. It emphasizes explicit "Do Not Use If"
     conditions and mandatory mitigation requirements.
-    
+
     **API Stability**: Stable. Public API for risk report generation.
     The generate() method and risk classification logic are guaranteed stable.
     Report structure and severity classifications will remain consistent.
@@ -60,7 +60,7 @@ class RiskReportGenerator:
 
         Returns:
             Path to the generated risk report file.
-            
+
         Raises:
             ValueError: If model_name, model_version, or risks are invalid.
             TemplateError: If template rendering fails.
@@ -68,14 +68,18 @@ class RiskReportGenerator:
         """
         try:
             if not model_name or not isinstance(model_name, str):
-                raise ValueError(f"model_name must be a non-empty string, got: {model_name}")
-            
+                raise ValueError(
+                    f"model_name must be a non-empty string, got: {model_name}"
+                )
+
             if not model_version or not isinstance(model_version, str):
-                raise ValueError(f"model_version must be a non-empty string, got: {model_version}")
-            
+                raise ValueError(
+                    f"model_version must be a non-empty string, got: {model_version}"
+                )
+
             if not isinstance(risks, list):
                 raise ValueError(f"risks must be a list, got: {type(risks).__name__}")
-            
+
             if report_date is None:
                 report_date = date.today()
 
@@ -107,17 +111,13 @@ class RiskReportGenerator:
             output_path.write_text(content, encoding="utf-8")
 
             return output_path
-        
+
         except ValueError as e:
             raise ValueError(f"Invalid input for risk report generation:\n  {str(e)}")
         except TemplateError as e:
-            raise TemplateError(
-                f"Failed to render risk report template:\n  {str(e)}"
-            )
+            raise TemplateError(f"Failed to render risk report template:\n  {str(e)}")
         except IOError as e:
-            raise IOError(
-                f"Failed to write risk report to {output_path}:\n  {str(e)}"
-            )
+            raise IOError(f"Failed to write risk report to {output_path}:\n  {str(e)}")
         except Exception as e:
             raise RuntimeError(
                 f"Unexpected error during risk report generation:\n  {str(e)}"
