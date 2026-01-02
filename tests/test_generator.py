@@ -1,12 +1,13 @@
 import pytest
-from modelcardgen.reports.markdown import MarkdownCardGenerator
+
 from modelcardgen.core.models import (
-    ModelMetadata,
     DatasetMetadata,
     EvaluationMetrics,
     ModelLimitations,
+    ModelMetadata,
     UseCaseConstraints,
 )
+from modelcardgen.reports.markdown import MarkdownCardGenerator
 
 
 def test_report_generation(tmp_path):

@@ -1,7 +1,8 @@
-import pytest
 from datetime import date
 from pathlib import Path
 from tempfile import TemporaryDirectory
+
+import pytest
 
 from modelcardgen.core.models import RiskAssessment
 from modelcardgen.reports.risk import RiskReportGenerator

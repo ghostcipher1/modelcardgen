@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List, Optional, Union
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape, TemplateError
+from jinja2 import Environment, FileSystemLoader, TemplateError, select_autoescape
 
 from modelcardgen.core.interpreter import MetricInterpreter
 from modelcardgen.core.models import (

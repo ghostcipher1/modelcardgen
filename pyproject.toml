@@ -78,3 +78,8 @@ pythonpath = ["src"]
 # Code style configuration
 line-length = 88
 target-version = ['py310']
+
+[tool.isort]
+# Isort configuration for compatibility with black
+profile = "black"
+line_length = 88

@@ -1,8 +1,9 @@
 import json
-import pytest
-import numpy as np
 from pathlib import Path
 from tempfile import NamedTemporaryFile
+
+import numpy as np
+import pytest
 
 from modelcardgen.core.metrics import MetricsParser, MetricsParsingError
 from modelcardgen.core.models import EvaluationMetrics

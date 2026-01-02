@@ -1,5 +1,6 @@
 import pytest
-from modelcardgen.core.interpreter import MetricInterpreter, Interpretation
+
+from modelcardgen.core.interpreter import Interpretation, MetricInterpreter
 from modelcardgen.core.models import EvaluationMetrics
 
 
