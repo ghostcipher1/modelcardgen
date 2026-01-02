@@ -1,0 +1,254 @@
+# Risk Report: {{ model_name }}
+
+**Model Version:** {{ model_version }}  
+**Report Date:** {{ report_date }}  
+**Assessment Status:** Complete
+
+---
+
+## Executive Summary
+
+This risk report identifies and categorizes potential harms, limitations, and unsafe deployment scenarios for the {{ model_name }} model. This assessment is conservative in scope and is intended to support audit, compliance, and operational risk management.
+
+The model presents **{{ risk_summary }}** for deployment in regulated or safety-critical contexts.
+
+---
+
+## Risk Classification Framework
+
+Risks are categorized by type and severity:
+
+- **Low Severity:** Issues with limited impact or rare occurrence. Monitoring and documentation are typically sufficient.
+- **Medium Severity:** Issues with moderate impact or reasonable probability. Active mitigation and monitoring are required.
+- **High Severity:** Issues with significant impact or high probability. Deployment should not proceed without explicit mitigation and approval.
+
+---
+
+## Performance and Metrics Interpretation
+
+{% if metrics_performance_summary %}
+{{ metrics_performance_summary }}
+
+{% if interpretations %}
+### Metric-Based Findings
+
+The following metric interpretations indicate performance characteristics that may influence risk profile:
+
+{% for interp in interpretations %}
+{% if interp.severity == "high" %}
+- **{{ interp.category | replace('_', ' ') | title }}**: {{ interp.statement }} *This finding directly impacts deployment risk.*
+{% endif %}
+{% endfor %}
+
+{% for interp in interpretations %}
+{% if interp.severity == "medium" %}
+- **{{ interp.category | replace('_', ' ') | title }}**: {{ interp.statement }}
+{% endif %}
+{% endfor %}
+
+{% endif %}
+{% endif %}
+
+---
+
+## Identified Risks
+
+{% for risk in risks %}
+### {{ loop.index }}. {{ risk.risk_type }}
+
+**Severity:** {{ risk.severity }}
+
+**Description:**
+
+{{ risk.description }}
+
+**Mitigation Strategy:**
+
+{{ risk.mitigation_strategy }}
+
+{% endfor %}
+
+---
+
+## Deployment Risk Categories
+
+### 1. Data Bias and Fairness Risks
+
+The model was trained on data that may not represent all populations or use cases uniformly. Biased training data can lead to systematically worse performance for certain demographic groups or inputs.
+
+{% set bias_risks = risks | selectattr('risk_type', 'in', ['Bias', 'Fairness', 'Data Bias', 'Domain-Specific Performance', 'Language Bias']) | list %}
+
+{% if bias_risks %}
+**Identified Issues:**
+{% for risk in bias_risks %}
+- {{ risk.risk_type }}: {{ risk.description }}
+{% endfor %}
+
+**Recommended Oversight:**
+- Monitor prediction distributions across demographic groups.
+- Conduct regular fairness audits on holdout test sets.
+- Document any performance disparities and mitigation efforts.
+{% else %}
+No explicit data bias risks have been documented. However, all models exhibit some degree of bias relative to their training distribution.
+{% endif %}
+
+### 2. Performance Degradation Risks
+
+Model performance may degrade under deployment due to concept drift, data distribution shift, or unforeseen edge cases. The metrics reported are specific to the evaluation dataset and may not generalize to all real-world scenarios.
+
+{% set degradation_risks = risks | selectattr('risk_type', 'in', ['Data Drift', 'Performance Degradation', 'Temporal Drift', 'Concept Drift']) | list %}
+
+{% if degradation_risks %}
+**Identified Issues:**
+{% for risk in degradation_risks %}
+- {{ risk.risk_type }}: {{ risk.description }}
+{% endfor %}
+
+**Recommended Oversight:**
+- Implement continuous monitoring of model predictions and ground truth.
+- Establish performance baselines and alert thresholds for key metrics.
+- Schedule periodic retraining and validation cycles.
+{% else %}
+Performance degradation risks have not been explicitly flagged, but should be monitored during deployment.
+{% endif %}
+
+### 3. Misuse and Security Risks
+
+The model can be misused in ways not aligned with its intended purpose. Unauthorized use or adversarial inputs may produce unsafe or misleading outputs.
+
+{% set misuse_risks = risks | selectattr('risk_type', 'in', ['Misuse', 'Security', 'Adversarial', 'Unauthorized Access']) | list %}
+
+{% if misuse_risks %}
+**Identified Issues:**
+{% for risk in misuse_risks %}
+- {{ risk.risk_type }}: {{ risk.description }}
+{% endfor %}
+
+**Recommended Oversight:**
+- Restrict model access to authorized users and systems.
+- Log and audit all model predictions and accesses.
+- Implement rate limiting and anomaly detection.
+- Train users on appropriate use cases.
+{% else %}
+Explicit misuse risks have not been documented. Implement standard access controls regardless.
+{% endif %}
+
+### 4. Operational Risks
+
+The model may fail or degrade under operational stress, including high latency, resource exhaustion, or infrastructure failures.
+
+{% set operational_risks = risks | selectattr('risk_type', 'in', ['Latency', 'Resource', 'Infrastructure', 'Operational']) | list %}
+
+{% if operational_risks %}
+**Identified Issues:**
+{% for risk in operational_risks %}
+- {{ risk.risk_type }}: {{ risk.description }}
+{% endfor %}
+
+**Recommended Oversight:**
+- Implement SLA monitoring and alerting.
+- Test failover and degradation scenarios.
+- Document resource requirements and scaling limits.
+{% endif %}
+
+---
+
+## Do Not Use If…
+
+The following conditions indicate the model should **not** be deployed or used:
+
+{% if do_not_use_conditions %}
+{% for condition in do_not_use_conditions %}
+- **{{ condition.condition }}**: {{ condition.explanation }}
+{% endfor %}
+{% else %}
+- The intended use case has changed since evaluation.
+- The deployment environment differs significantly from the evaluation environment.
+- Ground truth labels are unavailable for ongoing performance monitoring.
+- Users have not been trained on appropriate use of the model.
+- Access controls and audit logging are not in place.
+{% endif %}
+
+---
+
+## Risk Mitigation Requirements
+
+The following mitigations are **mandatory** before deployment:
+
+1. **Monitoring and Alerting**
+   - Establish real-time monitoring of model predictions and performance metrics.
+   - Set up automated alerts for performance degradation or anomalous behavior.
+
+2. **Access Control**
+   - Restrict model access to authorized personnel.
+   - Implement role-based access control and audit logging.
+
+3. **User Training**
+   - Train all users on appropriate use cases and limitations.
+   - Document and communicate model boundaries and "do not use" scenarios.
+
+4. **Fallback Procedures**
+   - Establish procedures for manual override or escalation when model confidence is low.
+   - Have backup decision-making processes in place.
+
+5. **Regular Audits**
+   - Schedule quarterly reviews of model performance and risks.
+   - Conduct fairness audits at least annually.
+   - Document all findings and mitigation actions.
+
+---
+
+## High-Risk Deployment Scenarios
+
+The following deployment scenarios carry elevated risk and require executive approval:
+
+- Using the model for consequential decisions (hiring, lending, healthcare) without human review.
+- Deploying the model in jurisdictions with regulatory requirements not yet assessed.
+- Using the model with data types or populations not represented in the evaluation set.
+- Automating downstream actions (e.g., account closures, benefit denials) based on model predictions.
+
+---
+
+## Ongoing Risk Management
+
+This risk assessment is a snapshot in time. Risk profiles will change as:
+
+- The model is retrained with new data.
+- Deployment environments and use cases evolve.
+- New failure modes or biases emerge.
+
+**Responsibility for Risk Management:**
+
+- **Model Owners:** Monitor risks, update mitigations, and trigger retraining as needed.
+- **Compliance/Audit:** Verify mitigations are in place and effective.
+- **Operations:** Monitor model behavior, alert on anomalies, and escalate concerns.
+
+---
+
+## Recommendations
+
+1. **Do not treat this assessment as comprehensive.** Engage domain experts, ethicists, and affected communities to identify risks not listed here.
+
+2. **Do not rely solely on this report for deployment decisions.** Conduct additional testing in staging environments with representative data.
+
+3. **Do not assume the model is "safe."** Establish a continuous risk monitoring and mitigation framework.
+
+4. **Do maintain this report.** Update risk assessments whenever the model is retrained, the deployment context changes, or new risks are discovered.
+
+---
+
+## Assessment Metadata
+
+- **Model Name:** {{ model_name }}
+- **Model Version:** {{ model_version }}
+- **Assessment Date:** {{ report_date }}
+- **Total Risks Identified:** {{ risks | length }}
+- **High Severity:** {{ risks | selectattr('severity', 'equalto', 'High') | list | length }}
+- **Medium Severity:** {{ risks | selectattr('severity', 'equalto', 'Medium') | list | length }}
+- **Low Severity:** {{ risks | selectattr('severity', 'equalto', 'Low') | list | length }}
+
+---
+
+## Disclaimer
+
+This risk report is provided for informational purposes and does not constitute legal, compliance, or operational advice. Organizations must conduct their own due diligence and engage qualified experts before deploying the model in regulated or safety-critical contexts.

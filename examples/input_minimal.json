@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "name": "Binary Classifier",
+    "version": "1.0.0",
+    "description": "A basic binary classification model for demonstration purposes.",
+    "owner": "Data Science Team",
+    "license": "MIT",
+    "framework": "scikit-learn"
+  },
+  "training_data": {
+    "name": "Training Dataset",
+    "description": "Historical training data with labeled outcomes.",
+    "size": 10000,
+    "features": ["feature_1", "feature_2", "feature_3"],
+    "target": "target_variable"
+  },
+  "eval_data": {
+    "name": "Evaluation Dataset",
+    "description": "Holdout test set for model evaluation.",
+    "size": 2000,
+    "features": ["feature_1", "feature_2", "feature_3"],
+    "target": "target_variable"
+  },
+  "metrics": {
+    "accuracy": 0.92,
+    "precision": 0.89,
+    "recall": 0.85,
+    "f1_score": 0.87,
+    "roc_auc": 0.94,
+    "confusion_matrix": [[1800, 100], [200, 900]],
+    "custom_metrics": {}
+  },
+  "limitations": {
+    "unsuitable_inputs": [
+      "Missing or null values",
+      "Extreme outliers",
+      "Corrupted features"
+    ],
+    "environmental_constraints": "Requires Python 3.10+",
+    "out_of_scope_uses": [
+      "High-stakes decision making",
+      "Use without validation on new data"
+    ]
+  },
+  "constraints": {
+    "intended_users": ["Data Analysts", "ML Engineers"],
+    "intended_use_cases": ["Model benchmarking", "Proof of concept"],
+    "prohibited_uses": ["Production deployment without approval"]
+  },
+  "risks": [
+    {
+      "risk_type": "Data Quality",
+      "description": "Training data may contain missing or incorrect labels.",
+      "mitigation_strategy": "Implement data validation and auditing procedures.",
+      "severity": "Medium"
+    },
+    {
+      "risk_type": "Model Overfitting",
+      "description": "Model may overfit to training data patterns.",
+      "mitigation_strategy": "Use cross-validation and regularization techniques.",
+      "severity": "Low"
+    }
+  ]
+}

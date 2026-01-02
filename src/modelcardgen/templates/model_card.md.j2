@@ -1,0 +1,175 @@
+# Model Card: {{ metadata.name }}
+
+**Version:** {{ metadata.version }}  
+**Released:** {{ metadata.release_date }}  
+**Owner:** {{ metadata.owner }}  
+**License:** {{ metadata.license }}  
+
+---
+
+## Model Overview
+
+{{ metadata.description }}
+
+**Framework:** {{ metadata.framework }}
+
+---
+
+## Intended Use
+
+### Primary Use Cases
+{% for use_case in constraints.intended_use_cases %}
+- {{ use_case }}
+{% endfor %}
+
+### Intended Users
+{% for user in constraints.intended_users %}
+- {{ user }}
+{% endfor %}
+
+---
+
+## Dataset Summary
+
+### Training Data
+**Name:** {{ training_data.name }}
+
+{{ training_data.description }}
+
+{% if training_data.source_url %}
+**Source:** {{ training_data.source_url }}
+{% endif %}
+{% if training_data.size %}
+**Size:** {{ training_data.size }} samples
+{% endif %}
+{% if training_data.features %}
+**Features:** {{ training_data.features | join(', ') }}
+{% endif %}
+**Target Variable:** {{ training_data.target }}
+
+### Evaluation Data
+**Name:** {{ eval_data.name }}
+
+{{ eval_data.description }}
+
+{% if eval_data.source_url %}
+**Source:** {{ eval_data.source_url }}
+{% endif %}
+{% if eval_data.size %}
+**Size:** {{ eval_data.size }} samples
+{% endif %}
+**Target Variable:** {{ eval_data.target }}
+
+---
+
+## Performance Summary
+
+The model was evaluated using standard classification metrics.
+
+**Overall Accuracy:** {{ "%.1f%%" | format(metrics.accuracy * 100) }}
+
+| Metric | Score |
+|--------|-------|
+| Accuracy | {{ "%.3f" | format(metrics.accuracy) }} |
+| Precision | {{ "%.3f" | format(metrics.precision) }} |
+| Recall | {{ "%.3f" | format(metrics.recall) }} |
+| F1-Score | {{ "%.3f" | format(metrics.f1_score) }} |
+{% if metrics.roc_auc %}
+| ROC AUC | {{ "%.3f" | format(metrics.roc_auc) }} |
+{% endif %}
+
+{% if metrics.confusion_matrix %}
+### Confusion Matrix
+
+The confusion matrix shows prediction counts across classes:
+
+```
+{{ metrics.confusion_matrix }}
+```
+
+{% endif %}
+{% if metrics.custom_metrics %}
+### Additional Metrics
+
+{% for metric_name, metric_value in metrics.custom_metrics.items() %}
+- **{{ metric_name | replace('_', ' ') | title }}:** {{ metric_value }}
+{% endfor %}
+
+{% endif %}
+
+---
+
+## Metric Interpretation
+
+{{ performance_summary }}
+
+{% if interpretations %}
+### Key Findings
+
+{% for interp in interpretations %}
+- **{{ interp.category | replace('_', ' ') | title }}** ({{ interp.severity }}): {{ interp.statement }}
+{% endfor %}
+
+### Recommendations
+
+{% for interp in interpretations %}
+{% if interp.severity == "high" %}
+- **{{ interp.category | replace('_', ' ') | title }}**: {{ interp.recommendation }}
+{% endif %}
+{% endfor %}
+
+{% endif %}
+
+---
+
+## Known Limitations
+
+### Unsuitable Inputs
+The model should not be used with the following types of data:
+
+{% for limitation in limitations.unsuitable_inputs %}
+- {{ limitation }}
+{% endfor %}
+
+### Environmental Constraints
+{% if limitations.environmental_constraints %}
+{{ limitations.environmental_constraints }}
+{% else %}
+No specific environmental constraints have been identified.
+{% endif %}
+
+---
+
+## Ethical Considerations and Risks
+
+The following risks have been identified during development and evaluation:
+
+{% for risk in risks %}
+### {{ risk.risk_type }}
+
+**Description:** {{ risk.description }}
+
+**Mitigation:** {{ risk.mitigation_strategy }}
+
+**Severity:** {{ risk.severity }}
+
+{% endfor %}
+
+---
+
+## Out-of-Scope Uses
+
+This model is **not** intended for the following purposes:
+
+{% for prohibited_use in constraints.prohibited_uses %}
+- {{ prohibited_use }}
+{% endfor %}
+
+---
+
+## Model Card Information
+
+This model card was automatically generated to provide transparency about model capabilities and limitations. For questions or additional information, contact {{ metadata.owner }}.
+
+**License:** {{ metadata.license }}  
+**Last Updated:** {{ metadata.release_date }}

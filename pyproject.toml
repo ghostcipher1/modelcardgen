@@ -1,0 +1,80 @@
+[build-system]
+# PEP 517 build backend specification
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# Core package metadata
+name = "modelcardgen"
+version = "0.1.0"
+description = "Concise Logic and Explanation Analysis Reports (CLEAR) for ML models"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "ModelCardGen Contributors", email = "maintainers@example.com" },
+]
+keywords = ["machine-learning", "model-cards", "explainability", "responsible-ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# Primary dependencies
+dependencies = [
+    "numpy>=1.22.0",
+    "pandas>=1.4.0",
+    "jinja2>=3.1.0",
+    "pydantic>=2.0.0",
+    "click>=8.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# Soft dependency for scikit-learn based evaluations
+ml = [
+    "scikit-learn>=1.0.0",
+]
+# Development and testing tools
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "numpy>=1.22.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/username/modelcardgen"
+Documentation = "https://github.com/username/modelcardgen#readme"
+Repository = "https://github.com/username/modelcardgen.git"
+Issues = "https://github.com/username/modelcardgen/issues"
+
+[project.scripts]
+# CLI entry point mapping
+modelcardgen = "modelcardgen.cli.main:main"
+
+[tool.setuptools]
+# Include template files in package distribution
+package-data = { modelcardgen = ["templates/*.j2"] }
+
+[tool.setuptools.packages.find]
+# Automatic discovery of packages in the src directory
+where = ["src"]
+
+[tool.pytest.ini_options]
+# Pytest configuration
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.black]
+# Code style configuration
+line-length = 88
+target-version = ['py310']

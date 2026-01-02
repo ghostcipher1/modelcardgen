@@ -1,0 +1,134 @@
+model_name: "Email Spam Classifier"
+model_version: "2.1.0"
+model_description: |
+  A machine learning model that classifies emails as spam or legitimate 
+  based on textual features and header information. Uses a gradient boosted 
+  decision tree ensemble trained on historical email data.
+model_owner: "Machine Learning Team"
+model_license: "Apache-2.0"
+model_framework: "scikit-learn"
+
+training_data_name: "Enron Email Corpus"
+training_data_description: |
+  A large collection of real email messages with manually labeled spam 
+  and legitimate categories. Collected from Enron employees' mailboxes 
+  and supplemented with public spam databases.
+training_data_size: 755000
+training_data_features:
+  - "subject_line"
+  - "body_text"
+  - "sender_domain"
+  - "header_features"
+  - "attachment_count"
+  - "recipient_count"
+training_data_target: "spam_label"
+
+eval_data_name: "Recent Email Dataset"
+eval_data_description: |
+  A holdout test set from more recent emails to evaluate temporal robustness. 
+  Collected from the same source systems as training data but from a later 
+  time period to assess model drift.
+eval_data_size: 50000
+eval_data_features:
+  - "subject_line"
+  - "body_text"
+  - "sender_domain"
+  - "header_features"
+  - "attachment_count"
+  - "recipient_count"
+eval_data_target: "spam_label"
+
+accuracy: 0.963
+precision: 0.951
+recall: 0.945
+f1_score: 0.948
+roc_auc: 0.985
+confusion_matrix:
+  - [47500, 1500]
+  - [2500, 500]
+  - [1000, 45500]
+
+unsuitable_inputs:
+  - "Non-English emails"
+  - "Encrypted or binary content"
+  - "Severely truncated messages"
+  - "Messages with unusual character encodings"
+
+environmental_constraints: |
+  Requires Python 3.10+. Typical inference time: <50ms per email. 
+  Memory footprint: ~500MB. GPU acceleration optional but recommended 
+  for high-volume deployment.
+
+out_of_scope_uses:
+  - "Blocking legitimate user email without human review"
+  - "Automated account suspension based on spam classification"
+  - "Filtering of non-email messages (SMS, chat, social media)"
+  - "Use in languages other than English without retraining"
+
+intended_users:
+  - "Email administrators"
+  - "IT security teams"
+  - "Email service providers"
+  - "Enterprise security operations"
+
+intended_use_cases:
+  - "Spam detection for user inboxes"
+  - "Training data for downstream models"
+  - "Email security analytics"
+  - "Detection of phishing attempts"
+  - "Real-time email filtering with human review"
+
+prohibited_uses:
+  - "Blocking legitimate user email"
+  - "Discriminatory filtering based on sender identity"
+  - "Automated enforcement without human oversight"
+  - "Use in safety-critical or life-altering decisions"
+
+risks:
+  - risk_type: "Domain-Specific Performance"
+    description: |
+      Model was trained on Enron corpus (2000s) and may not capture 
+      modern spam patterns. Spam tactics have evolved significantly, 
+      including use of AI-generated content and sophisticated phishing.
+    mitigation_strategy: |
+      Retrain quarterly with recent email data. Monitor performance 
+      metrics continuously. Maintain feedback loop with security team 
+      to identify emerging patterns.
+    severity: "Medium"
+  
+  - risk_type: "Language Bias"
+    description: |
+      Training data contains primarily English emails. Non-English 
+      emails may have degraded performance or unpredictable behavior.
+    mitigation_strategy: |
+      Collect and evaluate performance on non-English email samples. 
+      Consider separate models for major non-English languages. Document 
+      supported languages clearly.
+    severity: "Low"
+  
+  - risk_type: "Data Drift"
+    description: |
+      Email patterns and user behavior evolve over time. Distribution 
+      shift in production data may cause performance degradation.
+    mitigation_strategy: |
+      Implement continuous monitoring of key metrics. Set alerts for 
+      accuracy drop below 94%. Trigger retraining when drift is detected.
+    severity: "Medium"
+  
+  - risk_type: "False Positive Impact"
+    description: |
+      Misclassifying legitimate emails as spam causes user frustration 
+      and potential loss of important messages (invoices, alerts, notifications).
+    mitigation_strategy: |
+      Tune decision threshold to minimize false positives. Implement 
+      email recovery/appeal features. Monitor false positive rate daily.
+    severity: "Medium"
+  
+  - risk_type: "Adversarial Robustness"
+    description: |
+      Model may be vulnerable to adversarially crafted emails designed 
+      to evade detection. Sophisticated attackers can adapt to learned patterns.
+    mitigation_strategy: |
+      Implement ensemble methods with multiple models. Maintain feedback 
+      loop for false negatives. Test against adversarial examples quarterly.
+    severity: "High"
