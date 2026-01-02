@@ -2,7 +2,10 @@ from datetime import date
 from typing import List, Optional, Tuple
 
 import numpy as np
-from sklearn.metrics import classification_report, confusion_matrix  # type: ignore[import-untyped]
+from sklearn.metrics import (  # type: ignore[import-untyped]
+    classification_report,
+    confusion_matrix,
+)
 from sklearn.model_selection import train_test_split  # type: ignore[import-untyped]
 
 from modelcardgen.core.metrics import MetricsParser
