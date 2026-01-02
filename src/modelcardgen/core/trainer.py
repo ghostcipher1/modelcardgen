@@ -2,8 +2,8 @@ from datetime import date
 from typing import List, Optional, Tuple
 
 import numpy as np
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix  # type: ignore[import-untyped]
+from sklearn.model_selection import train_test_split  # type: ignore[import-untyped]
 
 from modelcardgen.core.metrics import MetricsParser
 from modelcardgen.core.models import (
@@ -43,9 +43,9 @@ class ClassifierTrainer:
         self.model = model
         self.test_size = test_size
         self.random_state = random_state
-        self.y_test = None
-        self.y_pred = None
-        self.metrics = None
+        self.y_test: Optional[np.ndarray] = None
+        self.y_pred: Optional[np.ndarray] = None
+        self.metrics: Optional[EvaluationMetrics] = None
 
     def train_and_evaluate(
         self,
